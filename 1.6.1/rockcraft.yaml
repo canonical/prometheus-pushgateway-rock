@@ -1,0 +1,33 @@
+name: prometheus-pushgateway
+title: Prometheus Pushgateway
+summary: Prometheus PushGateway in a ROCK.
+description: "The Prometheus Pushgateway exists to allow ephemeral and batch jobs to expose their metrics to Prometheus."
+version: "1.6.1"
+base: ubuntu:22.04
+build-base: ubuntu:22.04
+license: Apache-2.0
+services:
+  pushgateway:
+    command: /bin/pushgateway
+    override: replace
+    startup: enabled
+platforms:
+  amd64:
+parts:
+  pushgateway:
+    plugin: go
+    source: https://github.com/prometheus/pushgateway
+    source-type: git
+    source-tag: "v1.6.0"
+    build-snaps:
+      - go/1.21/stable
+    build-packages:
+      - make
+    override-build: |
+      make build
+      install -D -m755 pushgateway ${CRAFT_PART_INSTALL}/bin/pushgateway
+    organize:
+      pushgateway: bin/pushgateway
+  prometheus-pushgateway:
+    source-tag: v1.6.1
+    build-snaps: go/1.19/stable
