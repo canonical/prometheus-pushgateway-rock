@@ -28,6 +28,7 @@ parts:
       install -D -m755 pushgateway ${CRAFT_PART_INSTALL}/bin/pushgateway
     organize:
       pushgateway: bin/pushgateway
-  prometheus-pushgateway:
-    source-tag: v1.6.2
-    build-snaps: go/1.19/stable
+  # We moved this here because: https://github.com/canonical/rockcraft/issues/343
+  ca-certs:
+    plugin: nil
+    stage-packages: [ca-certificates]
