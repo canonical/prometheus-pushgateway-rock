@@ -20,7 +20,7 @@ parts:
     source-type: git
     source-tag: "v1.6.0"
     build-snaps:
-      - go/1.21/stable
+      - go/1.19/stable
     build-packages:
       - make
     override-build: |
@@ -28,3 +28,7 @@ parts:
       install -D -m755 pushgateway ${CRAFT_PART_INSTALL}/bin/pushgateway
     organize:
       pushgateway: bin/pushgateway
+  # We moved this here because: https://github.com/canonical/rockcraft/issues/343
+  ca-certs:
+    plugin: nil
+    stage-packages: [ca-certificates]
