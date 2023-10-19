@@ -12,9 +12,3 @@ jobs:
       rock-name: prometheus-pushgateway
       source-repo: prometheus/pushgateway
       check-go: true
-      update-script: |
-        # The caller must provide \$application_src and \$rockcraft_yaml
-        #   \$application_src: The root folder of the cloned upstream project
-        #   \$rockcraft_yaml: Path of the rockcraft.yaml to update
-        #
-        ## Node dependency

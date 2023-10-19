@@ -7,18 +7,18 @@ base: ubuntu:22.04
 build-base: ubuntu:22.04
 license: Apache-2.0
 services:
-  pushgateway:
+  prometheus-pushgateway:
     command: /bin/pushgateway
     override: replace
     startup: enabled
 platforms:
   amd64:
 parts:
-  pushgateway:
+  prometheus-pushgateway:
     plugin: go
     source: https://github.com/prometheus/pushgateway
     source-type: git
-    source-tag: "v1.6.1"
+    source-tag: "v1.6.2"
     build-snaps:
       - go/1.19/stable
     build-packages:
@@ -27,7 +27,7 @@ parts:
       make build
       install -D -m755 pushgateway ${CRAFT_PART_INSTALL}/bin/pushgateway
     organize:
-      pushgateway: bin/pushgateway
+      prometheus-pushgateway: bin/pushgateway
   # We moved this here because: https://github.com/canonical/rockcraft/issues/343
   ca-certs:
     plugin: nil
