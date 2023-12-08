@@ -3,8 +3,8 @@ title: Prometheus Pushgateway
 summary: Prometheus PushGateway in a ROCK.
 description: "The Prometheus Pushgateway exists to allow ephemeral and batch jobs to expose their metrics to Prometheus."
 version: "1.6.2"
-base: ubuntu:22.04
-build-base: ubuntu:22.04
+base: ubuntu@22.04
+build-base: ubuntu@22.04
 license: Apache-2.0
 services:
   prometheus-pushgateway:
@@ -32,3 +32,12 @@ parts:
   ca-certs:
     plugin: nil
     stage-packages: [ca-certificates]
+  deb-security-manifest:
+    plugin: nil
+    after:
+      - prometheus-pushgateway
+      - ca-certs
+    override-prime: |
+      set -x
+      mkdir -p $CRAFT_PRIME/usr/share/rocks/
+      (echo "# os-release" && cat /etc/os-release && echo "# dpkg-query" && dpkg-query --admindir=$CRAFT_PRIME/var/lib/dpkg/ -f '${db:Status-Abbrev},${binary:Package},${Version},${source:Package},${Source:Version}\n' -W) > $CRAFT_PRIME/usr/share/rocks/dpkg.query
