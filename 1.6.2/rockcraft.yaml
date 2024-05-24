@@ -1,6 +1,6 @@
 name: prometheus-pushgateway
 title: Prometheus Pushgateway
-summary: Prometheus PushGateway in a ROCK.
+summary: Prometheus PushGateway in a rock.
 description: "The Prometheus Pushgateway exists to allow ephemeral and batch jobs to expose their metrics to Prometheus."
 version: "1.6.2"
 base: ubuntu@22.04
