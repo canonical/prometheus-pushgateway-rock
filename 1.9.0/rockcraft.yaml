@@ -1,0 +1,45 @@
+name: prometheus-pushgateway
+title: Prometheus Pushgateway
+summary: Prometheus PushGateway in a rock.
+description: "The Prometheus Pushgateway exists to allow ephemeral and batch jobs to expose their metrics to Prometheus."
+version: "1.9.0"
+base: ubuntu@22.04
+build-base: ubuntu@22.04
+license: Apache-2.0
+services:
+  prometheus-pushgateway:
+    command: /bin/pushgateway
+    override: replace
+    startup: enabled
+platforms:
+  amd64:
+parts:
+  prometheus-pushgateway:
+    plugin: go
+    source: https://github.com/prometheus/pushgateway
+    source-type: git
+    source-tag: "v1.9.0"
+    build-snaps:
+      - go/1.21/stable
+    build-packages:
+      - make
+    override-build: |
+      make build
+      install -D -m755 pushgateway ${CRAFT_PART_INSTALL}/bin/pushgateway
+    organize:
+      prometheus-pushgateway: bin/pushgateway
+    stage:
+      - bin/pushgateway
+  # We moved this here because: https://github.com/canonical/rockcraft/issues/343
+  ca-certs:
+    plugin: nil
+    overlay-packages: [ca-certificates]
+  deb-security-manifest:
+    plugin: nil
+    after:
+      - prometheus-pushgateway
+      - ca-certs
+    override-prime: |
+      set -x
+      mkdir -p $CRAFT_PRIME/usr/share/rocks/
+      (echo "# os-release" && cat /etc/os-release && echo "# dpkg-query" && dpkg-query --admindir=$CRAFT_PRIME/var/lib/dpkg/ -f '${db:Status-Abbrev},${binary:Package},${Version},${source:Package},${Source:Version}\n' -W) > $CRAFT_PRIME/usr/share/rocks/dpkg.query
