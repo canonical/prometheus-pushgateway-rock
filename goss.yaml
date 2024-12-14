@@ -1,0 +1,10 @@
+process:
+  pushgateway:
+    running: true
+http:
+  status:
+    status: 200
+    url: http://localhost:9091/status
+  metrics:
+    status: 200
+    url: http://localhost:9091/metrics
