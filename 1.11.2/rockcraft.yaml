@@ -24,11 +24,11 @@ parts:
       - make
     override-build: |
       make build
-      install -D -m755 pushgateway ${CRAFT_PART_INSTALL}/bin/pushgateway
+      install -D -m755 pushgateway ${CRAFT_PART_INSTALL}/usr/bin/pushgateway
     organize:
       prometheus-pushgateway: bin/pushgateway
     stage:
-      - bin/pushgateway
+      - usr/bin/pushgateway
   # We moved this here because: https://github.com/canonical/rockcraft/issues/343
   ca-certs:
     plugin: nil
