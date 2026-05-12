@@ -3,7 +3,7 @@ title: Prometheus Pushgateway
 summary: Prometheus PushGateway in a rock.
 description: "The Prometheus Pushgateway exists to allow ephemeral and batch jobs to expose their metrics to Prometheus."
 version: "1.11.2"
-base: ubuntu@24.04
+base: ubuntu@26.04
 license: Apache-2.0
 services:
   prometheus-pushgateway:
@@ -24,11 +24,11 @@ parts:
       - make
     override-build: |
       make build
-      install -D -m755 pushgateway ${CRAFT_PART_INSTALL}/bin/pushgateway
+      install -D -m755 pushgateway ${CRAFT_PART_INSTALL}/usr/bin/pushgateway
     organize:
       prometheus-pushgateway: bin/pushgateway
     stage:
-      - bin/pushgateway
+      - usr/bin/pushgateway
   # We moved this here because: https://github.com/canonical/rockcraft/issues/343
   ca-certs:
     plugin: nil
